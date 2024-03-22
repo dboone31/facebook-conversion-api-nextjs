@@ -3,7 +3,7 @@ Facebook / Meta Conversion API for Next.js
 > Next.js wrapper for [Facebook's Conversion API](https://developers.facebook.com/docs/marketing-api/conversions-api/)
 
 # Facebook / Meta Conversion API for Next.js
-This package helps you implement Facebook Conversion API in Next.js.
+This package helps you implement Facebook Conversion API in Next.js v14+ w/ App Router.
 
 It includes an API route handler for sending server-side events to Facebook and client-side functions to trigger the events.
 
@@ -13,24 +13,30 @@ Therefore, we have added the option to enable standard Facebook Pixel events in 
 
 Support Next.js API routes on both Vercel and AWS Amplify.
 
+This is a fork of ```@rivercode/facebook-conversion-api-nextjs```
+
 ## Install
 
 NPM
 ```bash
-npm install @rivercode/facebook-conversion-api-nextjs
+npm install dboone31/facebook-conversion-api-nextjs
 ```
 
 Yarn
 ```bash
-yarn add @rivercode/facebook-conversion-api-nextjs
+yarn add dboone31/facebook-conversion-api-nextjs
 ```
 
 ## 1. Create Next.js API Route
-pages/api/fb-events.js
+pages/api/fb-events/route.ts
 ```jsx
-import { fbEventsHandler } from '@rivercode/facebook-conversion-api-nextjs/handlers';
+import { fbEventsHandler } from "@rivercode/facebook-conversion-api-nextjs/handlers"
+import { NextRequest, NextResponse } from "next/server"
 
-export default fbEventsHandler;
+export async function POST(req: NextRequest, res: NextResponse) {
+  console.log("REQUEST RECEIVED::::: ", JSON.stringify(req))
+  return fbEventsHandler(req, res)
+}
 ```
 
 ### Add Facebook Access Token and Pixel ID
@@ -47,7 +53,7 @@ Read more here on how you can get your [access token](https://developers.faceboo
 This is only needed if you want to fire standard Pixel Events.
 
 ### Add Facebook Pixel Provider & Script
-pages/_app.js
+/layout.tsx
 ```jsx
 import { FBPixelScript, FBPixelProvider } from '@rivercode/facebook-conversion-api-nextjs/components';
 
@@ -55,7 +61,7 @@ import { FBPixelScript, FBPixelProvider } from '@rivercode/facebook-conversion-a
 <>
   <FBPixelScript />
   <FBPixelProvider>
-    <Component {...pageProps} />
+    {children}
   </FBPixelProvider>
 </>
 ...
@@ -63,7 +69,10 @@ import { FBPixelScript, FBPixelProvider } from '@rivercode/facebook-conversion-a
 
 ## 3. Start Sending Events
 Trigger the events you need. For example, add to cart or purchase events.
+
+### Client Components
 ```jsx
+"use client"
 import { fbEvent } from '@rivercode/facebook-conversion-api-nextjs';
 
 useEffect(() => {
@@ -87,3 +96,5 @@ useEffect(() => {
     });
 }, []);
 ```
+
+### Server Components

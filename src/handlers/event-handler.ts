@@ -1,26 +1,31 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getClientIpAddress, getClientFbp, getClientFbc } from '../utils/request';
+import { NextRequest, NextResponse } from 'next/server';
+
+import {
+  getClientIpAddress,
+  getClientFbp,
+  getClientFbc,
+} from '../utils/request';
 import { sendServerSideEvent } from '../services/server-side-events';
 
 type Arguments = {
-  eventName: string
-  eventId: string
-  emails?: Array<string> | null
-  phones?: Array<string> | null
-  firstName?: string
-  lastName?: string
-  country?: string
-  city?: string
-  zipCode?: string
+  eventName: string;
+  eventId: string;
+  emails?: Array<string> | null;
+  phones?: Array<string> | null;
+  firstName?: string;
+  lastName?: string;
+  country?: string;
+  city?: string;
+  zipCode?: string;
   products: {
-    sku: string
-    quantity: number
-  }[]
-  value?: number
-  currency?: string
-  userAgent: string
-  sourceUrl: string
-  testEventCode?: string
+    sku: string;
+    quantity: number;
+  }[];
+  value?: number;
+  currency?: string;
+  userAgent: string;
+  sourceUrl: string;
+  testEventCode?: string;
 };
 
 /**
@@ -30,10 +35,10 @@ type Arguments = {
  * @param res
  * @constructor
  */
-const eventHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const eventHandler = async (req: NextRequest) => {
   if (req.method !== 'POST') {
-    return res.status(400).json({
-      message: 'This route only accepts POST requests',
+    return new NextResponse('This route only accepts POST requests', {
+      status: 400,
     });
   }
 
@@ -61,12 +66,13 @@ const eventHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     userAgent,
     sourceUrl,
     testEventCode,
-  } = req.body as Arguments;
+  } = (await req.json()) as Arguments;
 
   if (!eventName) {
-    return res.status(400).json({
-      error: 'The request body is missing required parameters: eventName',
-    });
+    return new NextResponse(
+      'The request body is missing required parameters: eventName',
+      { status: 400 },
+    );
   }
 
   const payload = {
@@ -95,7 +101,7 @@ const eventHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const success = response?.events_received === 1 ?? false;
 
   if (process.env.NEXT_PUBLIC_FB_DEBUG === 'true') {
-    return res.status(200).json({
+    return NextResponse.json({
       debug: true,
       success,
       payload,
@@ -103,7 +109,7 @@ const eventHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  return res.status(200).json({
+  return NextResponse.json({
     success,
   });
 };
