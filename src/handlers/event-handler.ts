@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 import {
   getClientIpAddress,
@@ -37,7 +37,7 @@ type Arguments = {
  */
 const eventHandler = async (req: NextRequest) => {
   if (req.method !== 'POST') {
-    return new NextResponse('This route only accepts POST requests', {
+    return new Response('This route only accepts POST requests', {
       status: 400,
     });
   }
@@ -69,7 +69,7 @@ const eventHandler = async (req: NextRequest) => {
   } = (await req.json()) as Arguments;
 
   if (!eventName) {
-    return new NextResponse(
+    return new Response(
       'The request body is missing required parameters: eventName',
       { status: 400 },
     );
@@ -101,7 +101,7 @@ const eventHandler = async (req: NextRequest) => {
   const success = response?.events_received === 1 ?? false;
 
   if (process.env.NEXT_PUBLIC_FB_DEBUG === 'true') {
-    return NextResponse.json({
+    return Response.json({
       debug: true,
       success,
       payload,
@@ -109,7 +109,7 @@ const eventHandler = async (req: NextRequest) => {
     });
   }
 
-  return NextResponse.json({
+  return Response.json({
     success,
   });
 };

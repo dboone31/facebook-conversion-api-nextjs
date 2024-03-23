@@ -31,9 +31,9 @@ yarn add dboone31/facebook-conversion-api-nextjs
 pages/api/fb-events/route.ts
 ```jsx
 import { fbEventsHandler } from "@rivercode/facebook-conversion-api-nextjs/handlers"
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   console.log("REQUEST RECEIVED::::: ", JSON.stringify(req))
   return fbEventsHandler(req, res)
 }
