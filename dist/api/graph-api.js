@@ -19,7 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const graphApi = (_a) => __awaiter(void 0, [_a], void 0, function* ({ endpoint = '', body = null }) {
     var _b;
     const pixelId = (_b = process.env.NEXT_PUBLIC_FB_PIXEL_ID) !== null && _b !== void 0 ? _b : '';
-    const request = new Request(`https://graph.facebook.com/v18.0/${pixelId}/${endpoint}`, Object.assign({ method: 'POST' }, (body && { body })));
+    const request = new Request(`https://graph.facebook.com/v19.0/${pixelId}/${endpoint}`, Object.assign({ method: 'POST' }, (body && { body })));
     return fetch(request)
         .then((response) => response.json())
         .catch((e) => {

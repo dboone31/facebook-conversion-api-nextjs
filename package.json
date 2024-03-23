@@ -30,6 +30,7 @@
   "dependencies": {
     "formdata-node": "^4.4.1",
     "next": "^14.1.4",
+    "react-facebook-pixel": "^1.0.4",
     "universal-cookie": "^4.0.4",
     "uuid": "^9.0.0"
   },

@@ -52,8 +52,6 @@ const eventHandler = async (req: NextRequest) => {
 
   const body = await req.json();
 
-  console.log('Request body::: ', body);
-
   const {
     eventName,
     eventId,
@@ -103,8 +101,6 @@ const eventHandler = async (req: NextRequest) => {
   const response = await sendServerSideEvent(payload);
 
   const success = response?.events_received === 1 ?? false;
-
-  console.log("Response from sendServerSideEvent::: ", success)
 
   if (process.env.NEXT_PUBLIC_FB_DEBUG === 'true') {
     return Response.json({

@@ -30,7 +30,7 @@ yarn add dboone31/facebook-conversion-api-nextjs
 ## 1. Create Next.js API Route
 pages/api/fb-events/route.ts
 ```jsx
-import { fbEventsHandler } from "@rivercode/facebook-conversion-api-nextjs/handlers"
+import { fbEventsHandler } from "@dboone31/facebook-conversion-api-nextjs/handlers"
 import { NextRequest } from "next/server"
 
 export async function POST(req: NextRequest) {
@@ -55,14 +55,16 @@ This is only needed if you want to fire standard Pixel Events.
 ### Add Facebook Pixel Provider & Script
 /layout.tsx
 ```jsx
-import { FBPixelScript, FBPixelProvider } from '@rivercode/facebook-conversion-api-nextjs/components';
+import { Suspense } from 'react'
+import { FBPixelComponent } from '@dboone31/facebook-conversion-api-nextjs/components';
 
 ...
 <>
-  <FBPixelScript />
-  <FBPixelProvider>
     {children}
-  </FBPixelProvider>
+
+    <Suspense fallback={null}>
+        <FBPixelComponent />
+    </Suspense>
 </>
 ...
 ```
@@ -73,7 +75,7 @@ Trigger the events you need. For example, add to cart or purchase events.
 ### Client Components
 ```jsx
 "use client"
-import { fbEvent } from '@rivercode/facebook-conversion-api-nextjs';
+import { fbEvent } from '@dboone31/facebook-conversion-api-nextjs';
 
 useEffect(() => {
     fbEvent({

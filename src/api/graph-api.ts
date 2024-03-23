@@ -18,8 +18,6 @@ const graphApi = async <T>({ endpoint = '', body = null }: Arguments): Promise<T
     ...(body && { body }),
   });
 
-  console.log('Request body formed for graphql::: ', body);
-
   return fetch(request)
     .then((response) => response.json() as Promise<T>)
     .catch((e: Error) => {

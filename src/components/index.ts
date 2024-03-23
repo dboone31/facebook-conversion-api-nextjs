@@ -1,4 +1,3 @@
-import FBPixelScript from './FBPixelScript';
-import FBPixelProvider from './FBPixelProvider';
+import FBPixelComponent from './FBPixelComponent';
 
-export { FBPixelScript, FBPixelProvider };
+export default FBPixelComponent;
