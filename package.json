@@ -63,5 +63,8 @@
     "next",
     "nextjs",
     "typescript"
-  ]
+  ],
+  "publishConfig": {
+    "@dboone31:registry": "https://npm.pkg.github.com"
+  }
 }
