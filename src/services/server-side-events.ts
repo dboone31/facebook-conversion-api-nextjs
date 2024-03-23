@@ -133,6 +133,8 @@ const sendServerSideEvent = async ({
 
   formData.append('access_token', process.env.FB_ACCESS_TOKEN ?? '');
 
+  console.log('Server Side Events Sending to GraphAPI::: ', JSON.stringify(formData));
+
   return graphApi({
     endpoint: 'events',
     body: formData,

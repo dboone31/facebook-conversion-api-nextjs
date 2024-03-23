@@ -104,6 +104,8 @@ const eventHandler = async (req: NextRequest) => {
 
   const success = response?.events_received === 1 ?? false;
 
+  console.log("Response from sendServerSideEvent::: ", success)
+
   if (process.env.NEXT_PUBLIC_FB_DEBUG === 'true') {
     return Response.json({
       debug: true,

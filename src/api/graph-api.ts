@@ -13,10 +13,12 @@ type Arguments = {
 const graphApi = async <T>({ endpoint = '', body = null }: Arguments): Promise<T> => {
   const pixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID ?? '';
 
-  const request = new Request(`https://graph.facebook.com/v18.0/${pixelId}/${endpoint}`, {
+  const request = new Request(`https://graph.facebook.com/v19.0/${pixelId}/${endpoint}`, {
     method: 'POST',
     ...(body && { body }),
   });
+
+  console.log('Request body formed for graphql::: ', body);
 
   return fetch(request)
     .then((response) => response.json() as Promise<T>)
