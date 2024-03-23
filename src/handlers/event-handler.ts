@@ -4,6 +4,8 @@ import {
   getClientIpAddress,
   getClientFbp,
   getClientFbc,
+  getClientCity,
+  getClientCountry,
 } from '../utils/request';
 import { sendServerSideEvent } from '../services/server-side-events';
 
@@ -84,8 +86,8 @@ const eventHandler = async (req: NextRequest) => {
     phones,
     firstName,
     lastName,
-    country,
-    city,
+    country: country ?? getClientCountry(req),
+    city: city ?? getClientCity(req),
     zipCode,
     products,
     value,

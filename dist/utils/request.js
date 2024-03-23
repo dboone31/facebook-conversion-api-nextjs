@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getClientFbc = exports.getClientFbp = exports.getClientUserAgent = exports.getClientIpAddress = void 0;
-const universal_cookie_1 = __importDefault(require("universal-cookie"));
+exports.getClientCity = exports.getClientFbc = exports.getClientFbp = exports.getClientUserAgent = exports.getClientIpAddress = void 0;
 /**
  * Get client IP address from request.
  *
@@ -12,7 +8,7 @@ const universal_cookie_1 = __importDefault(require("universal-cookie"));
  */
 const getClientIpAddress = (req) => {
     var _a;
-    const ipAddress = (req.headers.get('x-real-ip') || req.ip);
+    const ipAddress = req.ip;
     if (ipAddress) {
         return String(ipAddress);
     }
@@ -33,13 +29,36 @@ exports.getClientUserAgent = getClientUserAgent;
  * @param req
  */
 const getClientFbp = (req) => {
-    const cookies = new universal_cookie_1.default(req.cookies);
-    if (!cookies.get('_fbp')) {
+    const fpb = req.cookies.get('_fbp');
+    if (!fpb) {
         return '';
     }
-    return cookies.get('_fbp');
+    return fpb.value;
 };
 exports.getClientFbp = getClientFbp;
+/**
+ * Get client city from request
+ *
+ * @param req
+ * @returns string
+ */
+const getClientCity = (req) => {
+    var _a, _b;
+    const city = (_b = (_a = req.geo) === null || _a === void 0 ? void 0 : _a.city) !== null && _b !== void 0 ? _b : '';
+    return city;
+};
+exports.getClientCity = getClientCity;
+/**
+ * Get client country from request
+ *
+ * @param req
+ * @returns string
+ */
+const getClientCountry = (req) => {
+    var _a, _b;
+    const city = (_b = (_a = req.geo) === null || _a === void 0 ? void 0 : _a.country) !== null && _b !== void 0 ? _b : '';
+    return city;
+};
 /**
  * Get client fbc from request query params or cookie.
  *
@@ -53,10 +72,10 @@ const getClientFbc = (req) => {
             return (_a = url.searchParams.get('fbclid')) !== null && _a !== void 0 ? _a : '';
         }
     }
-    const cookies = new universal_cookie_1.default(req.cookies);
-    if (cookies.get('_fbc')) {
-        return cookies.get('_fbc');
+    const fbc = req.cookies.get('_fbc');
+    if (!fbc) {
+        return '';
     }
-    return '';
+    return fbc.value;
 };
 exports.getClientFbc = getClientFbc;

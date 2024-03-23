@@ -18,9 +18,16 @@ declare const getClientUserAgent: (req: NextRequest) => string;
  */
 declare const getClientFbp: (req: NextRequest) => string;
 /**
+ * Get client city from request
+ *
+ * @param req
+ * @returns string
+ */
+declare const getClientCity: (req: NextRequest) => string;
+/**
  * Get client fbc from request query params or cookie.
  *
  * @param req
  */
 declare const getClientFbc: (req: NextRequest) => string;
-export { getClientIpAddress, getClientUserAgent, getClientFbp, getClientFbc, };
+export { getClientIpAddress, getClientUserAgent, getClientFbp, getClientFbc, getClientCity, };

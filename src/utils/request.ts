@@ -12,7 +12,7 @@ const getClientIpAddress = (req: NextRequest): string => {
     return String(ipAddress);
   }
 
-  const xForwardedFor = req.headers.get('x-forwarded-for') as string ?? '';
+  const xForwardedFor = (req.headers.get('x-forwarded-for') as string) ?? '';
 
   return xForwardedFor.split(',')[0];
 };
@@ -37,6 +37,30 @@ const getClientFbp = (req: NextRequest): string => {
   }
 
   return fpb.value;
+};
+
+/**
+ * Get client city from request
+ *
+ * @param req
+ * @returns string
+ */
+const getClientCity = (req: NextRequest): string => {
+  const city = (req.geo?.city as string) ?? '';
+
+  return city;
+};
+
+/**
+ * Get client country from request
+ *
+ * @param req
+ * @returns string
+ */
+const getClientCountry = (req: NextRequest): string => {
+  const city = (req.geo?.country as string) ?? '';
+
+  return city;
 };
 
 /**
@@ -67,4 +91,6 @@ export {
   getClientUserAgent,
   getClientFbp,
   getClientFbc,
+  getClientCity,
+  getClientCountry,
 };
