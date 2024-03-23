@@ -50,6 +50,10 @@ const eventHandler = async (req: NextRequest) => {
     throw new Error('Missing NEXT_PUBLIC_FB_PIXEL_ID in environment file.');
   }
 
+  const body = await req.json();
+
+  console.log('Request body::: ', body);
+
   const {
     eventName,
     eventId,
@@ -66,7 +70,7 @@ const eventHandler = async (req: NextRequest) => {
     userAgent,
     sourceUrl,
     testEventCode,
-  } = (await req.json()) as Arguments;
+  } = (body) as Arguments;
 
   if (!eventName) {
     return new Response(
