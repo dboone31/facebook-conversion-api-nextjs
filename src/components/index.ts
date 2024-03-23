@@ -1,3 +1,6 @@
 import FBPixelComponent from './FBPixelComponent';
 
-export default FBPixelComponent;
+export {
+  // eslint-disable-next-line import/prefer-default-export
+  FBPixelComponent,
+};

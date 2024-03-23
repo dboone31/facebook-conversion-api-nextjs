@@ -1,2 +1,2 @@
 import FBPixelComponent from './FBPixelComponent';
-export default FBPixelComponent;
+export { FBPixelComponent, };
