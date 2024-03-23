@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import Cookies from 'universal-cookie';
 
 /**
  * Get client IP address from request.
@@ -7,7 +6,7 @@ import Cookies from 'universal-cookie';
  * @param req
  */
 const getClientIpAddress = (req: NextRequest): string => {
-  const ipAddress = (req.headers.get('x-real-ip') || req.ip);
+  const ipAddress = req.ip;
 
   if (ipAddress) {
     return String(ipAddress);
@@ -31,13 +30,13 @@ const getClientUserAgent = (req: NextRequest): string => String(req.headers.get(
  * @param req
  */
 const getClientFbp = (req: NextRequest): string => {
-  const cookies = new Cookies(req.cookies);
+  const fpb = req.cookies.get('_fbp');
 
-  if (!cookies.get('_fbp')) {
+  if (!fpb) {
     return '';
   }
 
-  return cookies.get('_fbp');
+  return fpb.value;
 };
 
 /**
@@ -54,13 +53,13 @@ const getClientFbc = (req: NextRequest): string => {
     }
   }
 
-  const cookies = new Cookies(req.cookies);
+  const fbc = req.cookies.get('_fbc');
 
-  if (cookies.get('_fbc')) {
-    return cookies.get('_fbc');
+  if (!fbc) {
+    return '';
   }
 
-  return '';
+  return fbc.value;
 };
 
 export {
